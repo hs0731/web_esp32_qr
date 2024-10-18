@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .map-container 
+        {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+        }
+        #side 
+        { /* 변경된 부분 */
+            width: 300px;
+            padding: 10px;
+            background-color: white;
+            border-left: 1px solid #ccc;
+            display: none; /* 기본적으로 숨김 */
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        rect {
+            cursor: pointer;
+            transition: fill 0.3s;
+        }
+        rect:hover {
+            fill: orange; /* 마우스를 올렸을 때 색상 변경 */
+        }
+        .icon {
+            position: absolute;
+            width: 30px; /* 아이콘 크기 */
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 60 83"><circle cx="30" cy="29" r="17" fill="blue"/><circle cx="30" cy="29" r="10" fill="white"/><polygon points="30,60 20,40 40,40" fill="blue"/></svg>');
+            background-repeat: no-repeat; /* 반복 방지 */
+        }    
+
+    </style>
+
+</head>
+<body>
+    <h1>카이로스_가산</h1>
+    <div id="map" onclick="addIcon(event)">
+    <svg width="210mm" height="297mm" viewBox="0 0 210 297" version="1.1" id="svg1" inkscape:version="1.4 (86a8ad7, 2024-10-11)" sodipodi:docname="map_2.svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+
+       <sodipodi:namedview
+          id="namedview1"
+          pagecolor="#ffffff"
+          bordercolor="#000000"
+          borderopacity="0.25"
+          inkscape:showpageshadow="2"
+          inkscape:pageopacity="0.0"
+          inkscape:pagecheckerboard="0"
+          inkscape:deskcolor="#d1d1d1"
+          inkscape:document-units="mm"
+          showguides="false"
+          inkscape:zoom="0.76167929"
+          inkscape:rotation="90"
+          inkscape:cx="397.14878"
+          inkscape:cy="561.25984"
+          inkscape:window-width="1920"
+          inkscape:window-height="1057"
+          inkscape:window-x="-8"
+          inkscape:window-y="-8"
+          inkscape:window-maximized="1"
+          inkscape:current-layer="layer2"
+          showgrid="false" 
+        />
+
+       <defs id="defs1">
+            <rect
+            x="232.38127"
+            y="291.46125"
+            width="128.66308"
+            height="59.079983"
+            id="rect4" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-9" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-2" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-3" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-93" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-9-1" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-9-1-8" 
+            />
+            <rect
+            x="232.38127"
+            y="291.46124"
+            width="128.66309"
+            height="59.079983"
+            id="rect4-9-1-81" 
+            />
+       </defs>
+
+
+       <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+        
+            <rect
+            style="fill:#dfdfdf;fill-opacity:1;stroke-width:0.264583"
+            id="rect1"
+            width="110.81052"
+            height="160.13684"
+            x="51.32938"
+            y="125.41621"
+            inkscape:label="gasan" 
+            onclick="showInfo('가산')" 
+            />
+            <rect
+            style="fill:#dfdfdf;fill-opacity:1;stroke-width:0.278115"
+            id="rect1-1"
+            width="184.45264"
+            height="106.29474"
+            x="13.64945"
+            y="12.688267"
+            inkscape:label="gasan_out" 
+            />
+            <rect
+            style="fill:#dfdfdf;fill-opacity:1;stroke-width:0.139753"
+            id="rect1-8"
+            width="30.915779"
+            height="160.13684"
+            x="13.746818"
+            y="125.21777" 
+            />
+            <rect
+            style="fill:#dfdfdf;fill-opacity:1;stroke-width:0.140358"
+            id="rect1-8-5"
+            width="30.915779"
+            height="161.52632"
+            x="167.22705"
+            y="124.08157" 
+            />
+       </g>
+       
+       
+       <g inkscape:groupmode="layer" id="layer2" inkscape:label="Layer 2" style="display:inline">
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.488954"
+            id="rect3-9"
+            width="53.147369"
+            height="83.368416"
+            x="19.389143"
+            y="23.969179"
+            inkscape:label="out2" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.488954"
+            id="rect3-9-8"
+            width="53.147369"
+            height="83.368416"
+            x="139.25407"
+            y="24.281691"
+            inkscape:label="out" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3"
+            width="19.105265"
+            height="6.2526264"
+            x="74.565239"
+            y="100.86667"
+            inkscape:label="벤치10" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1"
+            width="19.105265"
+            height="6.2526264"
+            x="118.26878"
+            y="101.07082"
+            inkscape:label="벤치9" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-4"
+            width="19.105265"
+            height="6.2526264"
+            x="118.26869"
+            y="24.606163"
+            inkscape:label="벤치8" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1"
+            width="19.105265"
+            height="6.2526264"
+            x="74.34819"
+            y="24.07712"
+            inkscape:label="벤치7" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6"
+            width="19.105265"
+            height="6.2526264"
+            x="-99.136711"
+            y="74.028625"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치6" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6-3"
+            width="19.105265"
+            height="6.2526264"
+            x="-99.616997"
+            y="130.13863"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치5" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6-3-3"
+            width="19.105265"
+            height="6.2526264"
+            x="-52.999573"
+            y="130.70439"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치4" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6-3-8"
+            width="19.105265"
+            height="6.2526264"
+            x="-75.665756"
+            y="130.55737"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치3" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6-8"
+            width="19.105265"
+            height="6.2526264"
+            x="-75.624969"
+            y="73.980339"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치2" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.0802851"
+            id="rect3-9-8-3-1-1-6-2"
+            width="19.105265"
+            height="6.2526264"
+            x="-52.337044"
+            y="74.11779"
+            transform="rotate(-90.45388)"
+            inkscape:label="벤치1" 
+            />
+            
+            <path
+            id="path3"
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.264583"
+            inkscape:label="휴게실"
+            inkscape:transform-center-x="-4.3737009"
+            inkscape:transform-center-y="-7.0644045"
+            d="M 28.922941 165.93639 L -2.8654897 108.18043 L 51.01555 89.074602 L 51.167929 89.351456 L 60.394864 86.011193 L 95.526414 73.295178 L 88.9736 110.07756 L 82.518928 146.31266 L 82.803981 146.83057 L 28.922941 165.93639 z "
+            transform="matrix(0.41535834,-0.19271799,-0.22860998,-0.54349113,85.182829,288.51667)"
+            onclick="showInfo('휴게실')" 
+            />
+            
+            <rect
+            style="fill:#c6c6c6;fill-opacity:1;stroke-width:0.311622"
+            id="rect3-2-1"
+            width="33"
+            height="54.536846"
+            x="59.958115"
+            y="132.00099"
+            inkscape:label="상담실"
+            onclick="showInfo('상담실')" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.339932"
+            id="rect3"
+            width="53.147369"
+            height="40.294739"
+            x="58.357895"
+            y="235.86316"
+            inkscape:label="C403"
+            onclick="showInfo('C403')" 
+            />
+            <rect
+            style="fill:#c6c6c6;fill-opacity:1;stroke-width:0.384323"
+            id="rect3-7"
+            width="39.599998"
+            height="69.12632"
+            x="117.77226"
+            y="207.03072"
+            inkscape:label="C402"
+            onclick="showInfo('C402')" 
+            />
+            <rect
+            style="display:inline;fill:#c6c6c6;fill-opacity:1;stroke-width:0.442742"
+            id="rect3-2-1-7"
+            width="55.926315"
+            height="64.957901"
+            x="99.210747"
+            y="131.59694"
+            inkscape:label="C401" 
+            onclick="showInfo('C401')"
+            />
+       </g>
+       
+       
+       <g inkscape:groupmode="layer" id="layer3" inkscape:label="Layer 3">
+            <text
+            xml:space="preserve"
+            transform="matrix(5.0181271e-4,-0.44394273,0.59855091,0.00147573,-40.234683,350.75511)"
+            id="text3"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4);fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.48828"
+              id="tspan1">C402</tspan>
+            </text>
+            
+            <text
+            xml:space="preserve"
+            transform="matrix(5.0181271e-4,-0.44394273,0.59855091,0.00147573,-93.854409,365.15528)"
+            id="text3-4"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4-9);fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.48828"
+              id="tspan2">C403</tspan>
+            </text>
+            
+            <text
+            xml:space="preserve"
+            transform="matrix(3.9882123e-4,-0.43360801,0.47570499,0.00144137,-64.248811,318.65171)"
+            id="text3-4-0"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4-9-1);fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.55859"
+              id="tspan3">휴게실</tspan>
+            </text>
+         
+            <text
+            xml:space="preserve"
+            transform="matrix(3.9882123e-4,-0.43360801,0.47570499,0.00144137,-35.575834,171.80474)"
+            id="text3-4-0-89"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4-9-1-81);fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.55859"
+              id="tspan4">벤치팟</tspan>
+            </text>
+         
+            <text
+            xml:space="preserve"
+            transform="matrix(3.9882123e-4,-0.43360801,0.47570499,0.00144137,-65.003136,266.7532)"
+            id="text3-4-0-8"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4-9-1-8);fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.55859"
+              id="tspan5">상담실</tspan>
+            </text>
+         
+            <text
+            xml:space="preserve"
+            transform="matrix(5.0181271e-4,-0.44394273,0.59855091,0.00147573,-51.183339,269.5919)"
+            id="text3-7"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect4-3);display:inline;fill:#000000;fill-opacity:1"><tspan
+              x="232.38086"
+              y="302.48828"
+              id="tspan6">C401</tspan>
+            </text>
+       </g>
+    </svg>
+
+    
+      
+    </div>
+
+    <div id="side"> 
+        <h2 id="side-title"></h2> 
+        <p id="side-content"></p>
+        <button onclick="alert('도착지로 설정되었습니다.')">도착</button>
+    </div>
+  
+    <div id="info" class="info">지도에서 구역을 클릭해보세요.</div>
+
+    <script>
+        
+
+        //esp32 랑 통신
+        function sendLocationToESP32(area) 
+        {
+            const esp32Ip = "http://172.30.1.5"; // ESP32의 IP 주소
+            fetch(`${esp32Ip}/location?area=${encodeURIComponent(area)}`, { method: 'GET' })
+                .then(response => response.text())
+                .then
+                    (data => 
+                        {
+                            console.log("Response from ESP32: " + data);
+                            alert("ESP32로부터 응답: " + data);
+                        }
+                    )
+                .catch
+                    (error => 
+                        {
+                        console.error("Error communicating with ESP32:", error);
+                        alert("ESP32와 통신 중 오류가 발생했습니다.");
+                        }
+                    );
+        }
+        
+        
+        // 위치를 클릭하면 오른쪽 사이드에 정보가 뜸
+        function showInfo(area, title, description) 
+        {
+            document.getElementById('side-title').innerText = title; 
+            document.getElementById('side-description').innerText = description; 
+            document.getElementById('side').style.display = 'block'; 
+        }
+        
+        // 클릭 시 정보를 표시하는 함수
+        function showInfo(area) 
+        {
+            const infoDiv = document.getElementById('info');
+            const map = document.getElementById('map');
+            const sideDiv = document.getElementById('side');
+            const sideTitle = document.getElementById('side-title');
+            const sideContent = document.getElementById('side-content');
+
+            if (area === '상담실') {
+                sideTitle.textContent = area + ' 정보';
+                sideContent.textContent = '상담실 입니다.';
+                sideDiv.style.display = 'block'
+            } 
+            else if (area === '휴게실') {
+                sideTitle.textContent = area + ' 정보';
+                sideContent.textContent = '직원들이 휴식을 취할 수 있는 공간입니다.';
+                sideDiv.style.display = 'block'
+            }
+            else if (area === 'C401') {
+                sideTitle.textContent = area + ' 정보';
+                sideContent.textContent = '카이로스 비전공자반 입니다.';
+                sideDiv.style.display = 'block';
+            }
+            else if (area === 'C402') {
+                sideTitle.textContent = area + ' 정보';
+                sideContent.textContent = '카이로스 전공자반 입니다.';
+                sideDiv.style.display = 'block';
+            }
+            else if (area === 'C403') {
+                sideTitle.textContent = area + ' 정보';
+                sideContent.textContent = '빈방 입니다.';
+                sideDiv.style.display = 'block'
+            }    
+            
+            //esp32 랑 통신
+            sendLocationToESP32(area);
+        }
+
+        function addIcon(event) 
+        {
+            // 클릭한 위치의 좌표 가져오기
+            const map = document.getElementById('map');
+            const rect = map.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const iconWidth = 30; // 아이콘의 너비
+            const iconHeight = 30; // 아이콘의 높이
+
+            // 기존 아이콘이 있다면 삭제
+            const existingIcon = document.querySelector('.icon');
+            
+            if (existingIcon) 
+            {
+                existingIcon.remove();
+            }
+
+            // 아이콘 요소 생성
+            const icon = document.createElement('div');
+            icon.classList.add('icon');
+            icon.style.left = `${x+15}px`; // 아이콘 중심을 클릭 위치에 맞추기
+            icon.style.top = `${y+90}px`;
+
+            // 아이콘을 맵에 추가
+            map.appendChild(icon);
+        }
+
+        document.getElementById('map').addEventListener('click', addIcon);
+
+
+    
+
+   
+    </script>
+
+</body>
+
+</html>
