@@ -455,15 +455,38 @@
     <script>
         //여기는 함수 정의하는 곳
         
-        //esp32 랑 통신하는 함수 만듦
-        function sendLocationToESP32(area) 
+        /*/esp32 랑 통신하는 함수 만듦
+        /function sendLocationToESP32(area) 
         {
             const esp32Ip = "http://192.168.219.104"; // ESP32의 IP 주소
             
             fetch(`${esp32Ip}/location?area=${encodeURIComponent(area)}`, { method: 'GET' })
                 .then(response => response.text())
                 
+        }*/
+
+        // ESP32와 통신하는 함수
+        function sendLocationToESP32(area) 
+        {
+            const esp32Ip = "http://your-public-ip-or-domain"; // ESP32의 외부에서 접근 가능한 IP 주소 또는 도메인
+
+            fetch(`${esp32Ip}/location?area=${encodeURIComponent(area)}`, { method: 'GET' })
+                .then(response => {
+                    if (!response.ok) 
+                    {
+                        throw new Error(`Error: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log("ESP32로부터의 응답:", data);
+                })
+                .catch(error => {
+                    console.error("ESP32와의 통신 오류:", error);
+                    alert("ESP32와의 통신에 실패했습니다. 네트워크를 확인해주세요.");
+                });
         }
+
         
         // 클릭 시 정보를 표시하는 함수
         function showInfo(area) 
