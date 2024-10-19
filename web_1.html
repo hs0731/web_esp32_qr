@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Map</title>
+    <title>Roborangers</title>
     <style>
+ 
         body 
-        {
+        {   /*페이지 전체*/
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
             padding: 20px;
         }
         .map-container 
-        {
+        {   /*맵이 들어가는 부분*/
             position: relative;
             width: 100%;
             max-width: 800px;
             margin: auto;
         }
         #side 
-        { /* 변경된 부분 */
+        {   /*사이드바 부분*/
             width: 300px;
             padding: 10px;
             background-color: white;
@@ -29,21 +30,46 @@
             position: absolute;
             right: 0;
             top: 0;
-            height: 100%;
+            height: 50%;
             overflow-y: auto;
         }
-        .info {
+        #close-btn 
+        {   /*사이드바 x 버튼*/
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336; /* 빨간색 닫기 버튼 */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .info 
+        {   /**/
             margin-top: 20px;
             font-size: 18px;
         }
-        rect {
+        rect 
+        {   /*사각형 요소에 마우스 커서를 올리면 클릭 모양으로 커서가 바뀜*/
             cursor: pointer;
             transition: fill 0.3s;
         }
-        rect:hover {
-            fill: orange; /* 마우스를 올렸을 때 색상 변경 */
+        path 
+        {   /*휴게실에 마우스 커서를 올리면 클릭 모양으로 커서가 바뀜*/
+            cursor: pointer;
+            transition: fill 0.3s;
         }
-        .icon {
+        rect:hover 
+        {   /*폰에서 손으로 누르면 색상이 바뀜*/
+            fill: orange;
+        }
+        path:hover 
+        {   /*폰에서 손으로 누르면 색상이 바뀜*/
+            fill: orange;
+        }
+        .icon 
+        {   /*아이콘*/
             position: absolute;
             width: 30px; /* 아이콘 크기 */
             height: 30px;
@@ -152,8 +178,7 @@
             height="160.13684"
             x="51.32938"
             y="125.41621"
-            inkscape:label="gasan" 
-            onclick="showInfo('가산')" 
+            inkscape:label="gasan"  
             />
             <rect
             style="fill:#dfdfdf;fill-opacity:1;stroke-width:0.278115"
@@ -421,55 +446,33 @@
     </div>
 
     <div id="side"> 
+        <button id="close-btn" onclick="closeSidebar()">X</button>
         <h2 id="side-title"></h2> 
         <p id="side-content"></p>
-        <button onclick="alert('도착지로 설정되었습니다.')">도착</button>
+        <button onclick="arriveAndClose()">도착</button>
     </div>
   
-    <div id="info" class="info">지도에서 구역을 클릭해보세요.</div>
-
     <script>
+        //여기는 함수 정의하는 곳
         
-
-        //esp32 랑 통신
+        //esp32 랑 통신하는 함수 만듦
         function sendLocationToESP32(area) 
         {
-            const esp32Ip = "http://172.30.1.5"; // ESP32의 IP 주소
+            const esp32Ip = "http://192.168.219.104"; // ESP32의 IP 주소
+            
             fetch(`${esp32Ip}/location?area=${encodeURIComponent(area)}`, { method: 'GET' })
                 .then(response => response.text())
-                .then
-                    (data => 
-                        {
-                            console.log("Response from ESP32: " + data);
-                            alert("ESP32로부터 응답: " + data);
-                        }
-                    )
-                .catch
-                    (error => 
-                        {
-                        console.error("Error communicating with ESP32:", error);
-                        alert("ESP32와 통신 중 오류가 발생했습니다.");
-                        }
-                    );
-        }
-        
-        
-        // 위치를 클릭하면 오른쪽 사이드에 정보가 뜸
-        function showInfo(area, title, description) 
-        {
-            document.getElementById('side-title').innerText = title; 
-            document.getElementById('side-description').innerText = description; 
-            document.getElementById('side').style.display = 'block'; 
+                
         }
         
         // 클릭 시 정보를 표시하는 함수
         function showInfo(area) 
         {
-            const infoDiv = document.getElementById('info');
-            const map = document.getElementById('map');
             const sideDiv = document.getElementById('side');
             const sideTitle = document.getElementById('side-title');
             const sideContent = document.getElementById('side-content');
+            //esp32랑 통신하는 함수 사용
+            sendLocationToESP32(area);
 
             if (area === '상담실') {
                 sideTitle.textContent = area + ' 정보';
@@ -495,12 +498,31 @@
                 sideTitle.textContent = area + ' 정보';
                 sideContent.textContent = '빈방 입니다.';
                 sideDiv.style.display = 'block'
-            }    
+            }
             
-            //esp32 랑 통신
-            sendLocationToESP32(area);
+        }   
+        
+        // 클릭하면 오른쪽 사이드에 정보가 뜸
+        function showInfo_side(area, title, description) 
+        {
+            document.getElementById('side-title').innerText = title; 
+            document.getElementById('side-description').innerText = description; 
+        } 
+        
+        // 사이드 바를 숨기는 함수
+        function closeSidebar() 
+        {
+            document.getElementById('side').style.display = 'none';
         }
 
+        // 도착지 설정후 사이드바 닫히게 하는 함수
+        function arriveAndClose() 
+        {
+            alert('도착지로 설정되었습니다.'); // 알림 창 띄우기
+            closeSidebar(); // 알림 확인 후 사이드 바 닫기
+        }
+
+        // 아이콘 추가하는 함수
         function addIcon(event) 
         {
             // 클릭한 위치의 좌표 가져오기
@@ -525,17 +547,9 @@
             icon.classList.add('icon');
             icon.style.left = `${x+15}px`; // 아이콘 중심을 클릭 위치에 맞추기
             icon.style.top = `${y+90}px`;
-
-            // 아이콘을 맵에 추가
             map.appendChild(icon);
         }
 
-        document.getElementById('map').addEventListener('click', addIcon);
-
-
-    
-
-   
     </script>
 
 </body>
